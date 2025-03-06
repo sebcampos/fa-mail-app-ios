@@ -88,8 +88,8 @@ class EmailDetailViewController: UIViewController {
         // Optional: Make the button circular by setting the corner radius
         deleteButton.layer.cornerRadius = 20
         deleteButton.clipsToBounds = true
-        
-        deleteButton.tintColor = .red
+        deleteButton.backgroundColor = .red
+        deleteButton.tintColor = .white
         
         // Add an action for the button tap
         deleteButton.addTarget(self, action: #selector(deleteEmail), for: .touchUpInside)
