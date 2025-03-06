@@ -16,6 +16,7 @@ class EmailDetailViewController: UIViewController {
     private let fromLabel = UILabel()
     private let dateLabel = UILabel()
     private let bodyTextView = UITextView()
+    private var deleteButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,11 +77,33 @@ class EmailDetailViewController: UIViewController {
         }
     }
     
-    
     func addDeleteButton() {
-        let deleteButton = UIBarButtonItem(title: "Delete", style: .plain, target: self, action: #selector(deleteEmail))
+        // Create a delete button with an icon
+        let iconImage = UIImage(systemName: "trash")
+        deleteButton = UIButton(type: .custom)
+        
+        deleteButton.setImage(iconImage, for: .normal)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Optional: Make the button circular by setting the corner radius
+        deleteButton.layer.cornerRadius = 20
+        deleteButton.clipsToBounds = true
+        
         deleteButton.tintColor = .red
-        navigationItem.rightBarButtonItem = deleteButton
+        
+        // Add an action for the button tap
+        deleteButton.addTarget(self, action: #selector(deleteEmail), for: .touchUpInside)
+        
+        // Add the button to the view
+        self.view.addSubview(deleteButton)
+        
+        // Add Auto Layout constraints to position the button at the bottom-right corner
+        NSLayoutConstraint.activate([
+            deleteButton.widthAnchor.constraint(equalToConstant: 40),
+            deleteButton.heightAnchor.constraint(equalToConstant: 40),
+            deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            deleteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
     }
 
     @objc func deleteEmail() {
@@ -97,5 +120,4 @@ class EmailDetailViewController: UIViewController {
             }
         }
     }
-    
 }
