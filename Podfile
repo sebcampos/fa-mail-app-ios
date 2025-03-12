@@ -5,6 +5,8 @@ target 'fa-mail' do
   # Comment the next line if you don't want to use dynamic frameworks
  use_frameworks!
 
+  pod 'KeychainAccess'
+
   # Pods for fa-mail
   pod 'mailcore2-ios'
 

@@ -74,6 +74,14 @@ class LoginViewController: UIViewController {
         loadingIndicator.hidesWhenStopped = true
         view.addSubview(loadingIndicator)
         
+        let (username, password) = MyKeychainManager.retrieveCredentials()
+        if (username) != nil {
+            usernameTextField.text = username
+        }
+        if (password) != nil {
+            passwordTextField.text = password
+        }
+        
         // Layout constraints
         NSLayoutConstraint.activate([
             usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -123,19 +131,24 @@ class LoginViewController: UIViewController {
         imapSession.connectionType = .TLS
         
         
-        smtpSession.hostname = "friendlyautomations.com"
+        smtpSession.hostname = "smtp.sendgrid.net"
         smtpSession.port = 587  // Use 587 for TLS, 465 for SSL, or 25 (non-secure) if needed
-        smtpSession.username = username
-        smtpSession.password = password
+        smtpSession.username = "apikey"
+        smtpSession.password = API_KEY
+        smtpSession.authType = .saslPlain
         smtpSession.connectionType = .startTLS
-        
         
 
         // Validate credentials by fetching email count from inbox
         EmailViewController().getNumberOfEmailsForFolder(withFolder: "INBOX", session: imapSession) { [weak self] emailCount in
             if emailCount != -1 {
+                let email = imapSession.username + "@mail.friendlyautomations.com"
+                UserDefaults.standard.set(email, forKey: "userEmail")
+                APNManager.shared.sendDeviceTokenToServer()
+                
                 // Credentials are correct, move to the email screen
                 DispatchQueue.main.async {
+                    let _ = MyKeychainManager.storeCredentials(username: username, password: password)
                     self?.navigateToEmailScreen(imapSession: imapSession, smtpSession: smtpSession)
                 }
             } else {

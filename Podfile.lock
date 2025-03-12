@@ -1,16 +1,20 @@
 PODS:
+  - KeychainAccess (4.2.2)
   - mailcore2-ios (0.6.4)
 
 DEPENDENCIES:
+  - KeychainAccess
   - mailcore2-ios
 
 SPEC REPOS:
   trunk:
+    - KeychainAccess
     - mailcore2-ios
 
 SPEC CHECKSUMS:
+  KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   mailcore2-ios: 3ff0be2fa553d4da9c11d39c11d51863c768f24f
 
-PODFILE CHECKSUM: 223b24ca01d82dfa5671d93753569495fda9ed17
+PODFILE CHECKSUM: cc13da7bfe58934f7f79bd634ba68ceabd908caf
 
 COCOAPODS: 1.16.2

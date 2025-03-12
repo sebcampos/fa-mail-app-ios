@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9039E2C43B027616E0F03901 /* Pods_fa_mail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60BFEC5EC5A778BA52845E00 /* Pods_fa_mail.framework */; };
-		9172B1E498329A29E1DF1F23 /* Pods_fa_mailTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382E319E00C80ED2167FDF3B /* Pods_fa_mailTests.framework */; };
-		F2D9F56C6DAB8E37F8A9B427 /* Pods_fa_mail_fa_mailUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0557B74A99AD8546CF04BB0D /* Pods_fa_mail_fa_mailUITests.framework */; };
+		825FCCF91138FD4FCC28EDDF /* Pods_fa_mailTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 758647ED8198D867A6F002BA /* Pods_fa_mailTests.framework */; };
+		87EB08D7E989B919E7BB5B8E /* Pods_fa_mail.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0804CC34B0DC63382F2D5B8E /* Pods_fa_mail.framework */; };
+		B78651D8796026C6960DDB94 /* Pods_fa_mail_fa_mailUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2020F15923D3E326E360A007 /* Pods_fa_mail_fa_mailUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,18 +30,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0557B74A99AD8546CF04BB0D /* Pods_fa_mail_fa_mailUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fa_mail_fa_mailUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B15431575FE3E4DDD0820A3 /* Pods-fa-mail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail.release.xcconfig"; path = "Target Support Files/Pods-fa-mail/Pods-fa-mail.release.xcconfig"; sourceTree = "<group>"; };
-		382E319E00C80ED2167FDF3B /* Pods_fa_mailTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fa_mailTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3CA0CE507DB35C82B9E8C483 /* Pods-fa-mail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail.debug.xcconfig"; path = "Target Support Files/Pods-fa-mail/Pods-fa-mail.debug.xcconfig"; sourceTree = "<group>"; };
-		60BFEC5EC5A778BA52845E00 /* Pods_fa_mail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fa_mail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0804CC34B0DC63382F2D5B8E /* Pods_fa_mail.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fa_mail.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2020F15923D3E326E360A007 /* Pods_fa_mail_fa_mailUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fa_mail_fa_mailUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D79410524940199463CC6EA /* Pods-fa-mail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail.release.xcconfig"; path = "Target Support Files/Pods-fa-mail/Pods-fa-mail.release.xcconfig"; sourceTree = "<group>"; };
+		758647ED8198D867A6F002BA /* Pods_fa_mailTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fa_mailTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		96F1E049DFF1B6F686F06E90 /* Pods-fa-mail-fa-mailUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail-fa-mailUITests.debug.xcconfig"; path = "Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A1D281D0014E9C18C59D1D5C /* Pods-fa-mailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mailTests.release.xcconfig"; path = "Target Support Files/Pods-fa-mailTests/Pods-fa-mailTests.release.xcconfig"; sourceTree = "<group>"; };
+		A8848ACD4DF4C8292EC47437 /* Pods-fa-mail-fa-mailUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail-fa-mailUITests.release.xcconfig"; path = "Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B96C192C2D24D445008C8271 /* fa-mail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fa-mail.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B96C193C2D24D448008C8271 /* fa-mailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fa-mailTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B96C19462D24D448008C8271 /* fa-mailUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "fa-mailUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF3A7338AF8004D405C9F3AE /* Pods-fa-mail-fa-mailUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail-fa-mailUITests.release.xcconfig"; path = "Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests.release.xcconfig"; sourceTree = "<group>"; };
-		CFEF66E2CD90C46E0C935678 /* Pods-fa-mailTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mailTests.debug.xcconfig"; path = "Target Support Files/Pods-fa-mailTests/Pods-fa-mailTests.debug.xcconfig"; sourceTree = "<group>"; };
-		DA124DDC9CFFCFC127001401 /* Pods-fa-mail-fa-mailUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail-fa-mailUITests.debug.xcconfig"; path = "Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		FA77195601348423971693A3 /* Pods-fa-mailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mailTests.release.xcconfig"; path = "Target Support Files/Pods-fa-mailTests/Pods-fa-mailTests.release.xcconfig"; sourceTree = "<group>"; };
+		B9E28D11AAF2AF1767D4096C /* Pods-fa-mailTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mailTests.debug.xcconfig"; path = "Target Support Files/Pods-fa-mailTests/Pods-fa-mailTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FA5935A376EF9A603ADFEBCE /* Pods-fa-mail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fa-mail.debug.xcconfig"; path = "Target Support Files/Pods-fa-mail/Pods-fa-mail.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,11 +65,15 @@
 		};
 		B96C193F2D24D448008C8271 /* fa-mailTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "fa-mailTests";
 			sourceTree = "<group>";
 		};
 		B96C19492D24D448008C8271 /* fa-mailUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "fa-mailUITests";
 			sourceTree = "<group>";
 		};
@@ -80,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9039E2C43B027616E0F03901 /* Pods_fa_mail.framework in Frameworks */,
+				87EB08D7E989B919E7BB5B8E /* Pods_fa_mail.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9172B1E498329A29E1DF1F23 /* Pods_fa_mailTests.framework in Frameworks */,
+				825FCCF91138FD4FCC28EDDF /* Pods_fa_mailTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,13 +100,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2D9F56C6DAB8E37F8A9B427 /* Pods_fa_mail_fa_mailUITests.framework in Frameworks */,
+				B78651D8796026C6960DDB94 /* Pods_fa_mail_fa_mailUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D7F3AFA7E3F0C468A8D0A16 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0804CC34B0DC63382F2D5B8E /* Pods_fa_mail.framework */,
+				2020F15923D3E326E360A007 /* Pods_fa_mail_fa_mailUITests.framework */,
+				758647ED8198D867A6F002BA /* Pods_fa_mailTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B96C19232D24D445008C8271 = {
 			isa = PBXGroup;
 			children = (
@@ -111,7 +125,7 @@
 				B96C19492D24D448008C8271 /* fa-mailUITests */,
 				B96C192D2D24D445008C8271 /* Products */,
 				E0F6209C43C398CB5D4133FF /* Pods */,
-				E957FF30F14478513F45C06C /* Frameworks */,
+				0D7F3AFA7E3F0C468A8D0A16 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,24 +142,14 @@
 		E0F6209C43C398CB5D4133FF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3CA0CE507DB35C82B9E8C483 /* Pods-fa-mail.debug.xcconfig */,
-				0B15431575FE3E4DDD0820A3 /* Pods-fa-mail.release.xcconfig */,
-				DA124DDC9CFFCFC127001401 /* Pods-fa-mail-fa-mailUITests.debug.xcconfig */,
-				BF3A7338AF8004D405C9F3AE /* Pods-fa-mail-fa-mailUITests.release.xcconfig */,
-				CFEF66E2CD90C46E0C935678 /* Pods-fa-mailTests.debug.xcconfig */,
-				FA77195601348423971693A3 /* Pods-fa-mailTests.release.xcconfig */,
+				FA5935A376EF9A603ADFEBCE /* Pods-fa-mail.debug.xcconfig */,
+				2D79410524940199463CC6EA /* Pods-fa-mail.release.xcconfig */,
+				96F1E049DFF1B6F686F06E90 /* Pods-fa-mail-fa-mailUITests.debug.xcconfig */,
+				A8848ACD4DF4C8292EC47437 /* Pods-fa-mail-fa-mailUITests.release.xcconfig */,
+				B9E28D11AAF2AF1767D4096C /* Pods-fa-mailTests.debug.xcconfig */,
+				A1D281D0014E9C18C59D1D5C /* Pods-fa-mailTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		E957FF30F14478513F45C06C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				60BFEC5EC5A778BA52845E00 /* Pods_fa_mail.framework */,
-				0557B74A99AD8546CF04BB0D /* Pods_fa_mail_fa_mailUITests.framework */,
-				382E319E00C80ED2167FDF3B /* Pods_fa_mailTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,10 +159,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B96C19502D24D448008C8271 /* Build configuration list for PBXNativeTarget "fa-mail" */;
 			buildPhases = (
-				21FBC1E41167516B811212C0 /* [CP] Check Pods Manifest.lock */,
+				1ADCABD2EF920B23259DD7AA /* [CP] Check Pods Manifest.lock */,
 				B96C19282D24D445008C8271 /* Sources */,
 				B96C19292D24D445008C8271 /* Frameworks */,
 				B96C192A2D24D445008C8271 /* Resources */,
+				B7C09A3070A7E1A489C31C1E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -176,7 +181,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B96C19532D24D448008C8271 /* Build configuration list for PBXNativeTarget "fa-mailTests" */;
 			buildPhases = (
-				5D4CADDFDCF3E1B27F14AC77 /* [CP] Check Pods Manifest.lock */,
+				CBE740ED8A98FD38B1C8D3E5 /* [CP] Check Pods Manifest.lock */,
 				B96C19382D24D448008C8271 /* Sources */,
 				B96C19392D24D448008C8271 /* Frameworks */,
 				B96C193A2D24D448008C8271 /* Resources */,
@@ -198,10 +203,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B96C19562D24D448008C8271 /* Build configuration list for PBXNativeTarget "fa-mailUITests" */;
 			buildPhases = (
-				7E402A685E8510A6911432AD /* [CP] Check Pods Manifest.lock */,
+				58185E0FAB60E7F4B993EE74 /* [CP] Check Pods Manifest.lock */,
 				B96C19422D24D448008C8271 /* Sources */,
 				B96C19432D24D448008C8271 /* Frameworks */,
 				B96C19442D24D448008C8271 /* Resources */,
+				F677D6F16CA24320A0764A1F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -289,7 +295,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21FBC1E41167516B811212C0 /* [CP] Check Pods Manifest.lock */ = {
+		1ADCABD2EF920B23259DD7AA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -311,7 +317,46 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5D4CADDFDCF3E1B27F14AC77 /* [CP] Check Pods Manifest.lock */ = {
+		58185E0FAB60E7F4B993EE74 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-fa-mail-fa-mailUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7C09A3070A7E1A489C31C1E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CBE740ED8A98FD38B1C8D3E5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -333,26 +378,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7E402A685E8510A6911432AD /* [CP] Check Pods Manifest.lock */ = {
+		F677D6F16CA24320A0764A1F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-fa-mail-fa-mailUITests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -518,16 +558,18 @@
 		};
 		B96C19512D24D448008C8271 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CA0CE507DB35C82B9E8C483 /* Pods-fa-mail.debug.xcconfig */;
+			baseConfigurationReference = FA5935A376EF9A603ADFEBCE /* Pods-fa-mail.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "fa-mail/fa-mail.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fa-mail/Preview Content\"";
 				DEVELOPMENT_TEAM = UDUX3VH49J;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "fa-mail/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -552,16 +594,18 @@
 		};
 		B96C19522D24D448008C8271 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B15431575FE3E4DDD0820A3 /* Pods-fa-mail.release.xcconfig */;
+			baseConfigurationReference = 2D79410524940199463CC6EA /* Pods-fa-mail.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "fa-mail/fa-mail.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fa-mail/Preview Content\"";
 				DEVELOPMENT_TEAM = UDUX3VH49J;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "fa-mail/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -585,7 +629,7 @@
 		};
 		B96C19542D24D448008C8271 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFEF66E2CD90C46E0C935678 /* Pods-fa-mailTests.debug.xcconfig */;
+			baseConfigurationReference = B9E28D11AAF2AF1767D4096C /* Pods-fa-mailTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -604,7 +648,7 @@
 		};
 		B96C19552D24D448008C8271 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA77195601348423971693A3 /* Pods-fa-mailTests.release.xcconfig */;
+			baseConfigurationReference = A1D281D0014E9C18C59D1D5C /* Pods-fa-mailTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -623,7 +667,7 @@
 		};
 		B96C19572D24D448008C8271 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA124DDC9CFFCFC127001401 /* Pods-fa-mail-fa-mailUITests.debug.xcconfig */;
+			baseConfigurationReference = 96F1E049DFF1B6F686F06E90 /* Pods-fa-mail-fa-mailUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -640,7 +684,7 @@
 		};
 		B96C19582D24D448008C8271 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF3A7338AF8004D405C9F3AE /* Pods-fa-mail-fa-mailUITests.release.xcconfig */;
+			baseConfigurationReference = A8848ACD4DF4C8292EC47437 /* Pods-fa-mail-fa-mailUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
