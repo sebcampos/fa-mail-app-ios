@@ -66,7 +66,7 @@ class EmailDetailViewController: UIViewController {
         guard let email = email else { return }
         
         subjectLabel.text = "Subject: \(email.header.subject ?? "No Subject")"
-        fromLabel.text = "From: \(email.header.sender.displayName ?? "Unknown Sender")"
+        fromLabel.text = "From: \(email.header.sender.displayName ?? "Unknown Sender") \(email.header.sender.mailbox ?? "")"
         dateLabel.text = "Date: \(email.header.date?.description ?? "Unknown Date")"
         
         // Fetch the body using the passed closure
@@ -86,7 +86,7 @@ class EmailDetailViewController: UIViewController {
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         
         // Optional: Make the button circular by setting the corner radius
-        deleteButton.layer.cornerRadius = 20
+        deleteButton.layer.cornerRadius = 25
         deleteButton.clipsToBounds = true
         deleteButton.backgroundColor = .red
         deleteButton.tintColor = .white
@@ -99,8 +99,8 @@ class EmailDetailViewController: UIViewController {
         
         // Add Auto Layout constraints to position the button at the bottom-right corner
         NSLayoutConstraint.activate([
-            deleteButton.widthAnchor.constraint(equalToConstant: 40),
-            deleteButton.heightAnchor.constraint(equalToConstant: 40),
+            deleteButton.widthAnchor.constraint(equalToConstant: 50),
+            deleteButton.heightAnchor.constraint(equalToConstant: 50),
             deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             deleteButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
         ])
@@ -108,16 +108,31 @@ class EmailDetailViewController: UIViewController {
 
     @objc func deleteEmail() {
         guard let email = email else { return }
-
-        // Call the delete closure to delete the email
-        deleteEmailClosure?(email) { [weak self] success in
-            if success {
-                // If deletion is successful, pop the current view controller
-                self?.navigationController?.popViewController(animated: true)
-            } else {
-                // Handle the error or show an alert to the user
-                print("Failed to delete email.")
+        
+        let alert = UIAlertController(title: "Delete Confirm", message: "Delete email?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: {[weak self] _ in
+            // Call the delete closure to delete the email
+            self?.deleteEmailClosure?(email) { [weak self] success in
+                if success {
+                    // If deletion is successful, pop the current view controller
+                    let alert = UIAlertController(title: "Success", message: "mail deleted", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                        // Navigate back after sending
+                        self?.navigationController?.popViewController(animated: true)
+                    }))
+                    self?.present(alert, animated: true, completion: nil)
+                } else {
+                    // Handle the error or show an alert to the user
+                    print("Failed to delete email.")
+                    let alert = UIAlertController(title: "Failure", message: "mail not deleted!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self?.present(alert, animated: true, completion: nil)
+                }
             }
-        }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
