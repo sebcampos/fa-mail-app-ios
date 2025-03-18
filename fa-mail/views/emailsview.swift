@@ -189,20 +189,22 @@ class EmailViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func useImapFetchContent(uidToFetch uid: UInt32, completion: @escaping (String) -> Void) {
+    func useImapFetchContent(uidToFetch uid: UInt32, completion: @escaping (String, [Any], String) -> Void) {
         let operation = imapSession.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
         
         operation?.start { (error, messageParser) in
             guard error == nil, let messageParser = messageParser else {
-                completion("Error fetching body")
+                completion("Error fetching body", [nil], "error fecthing body html")
                 return
             }
             
             // Get the plain text body
             let body = messageParser.plainTextBodyRenderingAndStripWhitespace(false)
+            let attachments = messageParser.attachments()
+            let bodyHtml = messageParser.htmlBodyRendering()
             
             // Return the body via the completion handler
-            completion(body ?? "No body content")
+            completion(body ?? "No body content", attachments!, bodyHtml!)
         }
     }
     
