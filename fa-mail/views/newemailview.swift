@@ -41,7 +41,12 @@ class NewEmailViewController: UIViewController {
         subjectLabel.translatesAutoresizingMaskIntoConstraints = false
         subjectLabel.placeholder = "Subject"
         if replyToSubject != nil {
-            subjectLabel.text = "Re: \(replyToSubject!)"
+            if replyToSubject!.contains("Re: "){
+                subjectLabel.text = replyToSubject
+            }
+            else {
+                subjectLabel.text = "Re: \(replyToSubject!)"
+            }
         }
         
         
