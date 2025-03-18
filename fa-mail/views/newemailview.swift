@@ -14,6 +14,9 @@ class NewEmailViewController: UIViewController {
     var smtpSession: MCOSMTPSession!
     var fetchContentClosure: ((@escaping (String) -> Void) -> Void)?
     var deleteEmailClosure: ((MCOIMAPMessage, @escaping (Bool) -> Void) -> Void)?
+    var replyToEmail: String?
+    var replyContent: String?
+    var replyToSubject: String?
     private let recipientEmail = UITextField()
     private let subjectLabel = UITextField()
     private let bodyTextView = UITextView()
@@ -30,11 +33,24 @@ class NewEmailViewController: UIViewController {
         // Set up the views to display email details
         recipientEmail.translatesAutoresizingMaskIntoConstraints = false
         recipientEmail.placeholder = "Recipient"
+        if replyToEmail != nil {
+            recipientEmail.text = replyToEmail
+        }
+        
         recipientEmail.autocapitalizationType = .none
         subjectLabel.translatesAutoresizingMaskIntoConstraints = false
         subjectLabel.placeholder = "Subject"
+        if replyToSubject != nil {
+            subjectLabel.text = "Re: \(replyToSubject!)"
+        }
+        
+        
         bodyTextView.translatesAutoresizingMaskIntoConstraints = false
         bodyTextView.font = UIFont.systemFont(ofSize: 14)
+        if replyContent != nil {
+            bodyTextView.text = replyContent
+        }
+        
         view.addSubview(recipientEmail)
         view.addSubview(subjectLabel)
         view.addSubview(bodyTextView)
@@ -83,7 +99,7 @@ class NewEmailViewController: UIViewController {
             builder.header.to = [MCOAddress(displayName: nil, mailbox: recipient)!]
             builder.header.from = MCOAddress(displayName: username, mailbox: username + "@mail.friendlyautomations.com")
             builder.header.subject = subject
-            builder.htmlBody = body
+            builder.htmlBody = body.replacingOccurrences(of: "\n", with: "<br>")
             
             // Create the RFC822 data for the message
             let rfc822Data = builder.data()

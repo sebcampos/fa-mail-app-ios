@@ -81,6 +81,8 @@ class EmailViewController: UITableViewController {
         // Initialize the EmailDetailViewController and pass the selected email and fetch method
         let detailViewController = EmailDetailViewController()
         detailViewController.email = email
+        detailViewController.smtpSession = smtpSession
+        detailViewController.username = imapSession.username
         
         // adding fetch and delete closures
         detailViewController.fetchContentClosure = { [weak self] completion in
@@ -90,6 +92,8 @@ class EmailViewController: UITableViewController {
         detailViewController.deleteEmailClosure = { [weak self] emailToDelete, completion in
             self?.deleteEmail(email: emailToDelete, completion: completion)
         }
+        
+        // TODO pass smtp session to deailview controller
         
         // Push the detail view controller
         navigationController?.pushViewController(detailViewController, animated: true)
@@ -189,22 +193,22 @@ class EmailViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func useImapFetchContent(uidToFetch uid: UInt32, completion: @escaping (String, [Any], String) -> Void) {
+    func useImapFetchContent(uidToFetch uid: UInt32, completion: @escaping (String) -> Void) {
         let operation = imapSession.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
         
         operation?.start { (error, messageParser) in
             guard error == nil, let messageParser = messageParser else {
-                completion("Error fetching body", [nil], "error fecthing body html")
+                completion("Error fetching body")
                 return
             }
             
             // Get the plain text body
-            let body = messageParser.plainTextBodyRenderingAndStripWhitespace(false)
-            let attachments = messageParser.attachments()
+//            let body = messageParser.plainTextBodyRenderingAndStripWhitespace(false)
+//            let attachments = messageParser.attachments()
             let bodyHtml = messageParser.htmlBodyRendering()
             
             // Return the body via the completion handler
-            completion(body ?? "No body content", attachments!, bodyHtml!)
+            completion(bodyHtml ?? "No body content")
         }
     }
     

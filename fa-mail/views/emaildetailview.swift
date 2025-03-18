@@ -6,17 +6,20 @@
 //
 import SwiftUI
 
-class EmailDetailViewController: UIViewController, UIDocumentPickerDelegate {
+class EmailDetailViewController: UIViewController {
     
     var email: MCOIMAPMessage?
-    var fetchContentClosure: ((@escaping (String, [Any], String) -> Void) -> Void)?
+    var fetchContentClosure: ((@escaping (String) -> Void) -> Void)?
     var deleteEmailClosure: ((MCOIMAPMessage, @escaping (Bool) -> Void) -> Void)?
+    var username: String!
+    var smtpSession: MCOSMTPSession!
     
     private let subjectLabel = UILabel()
     private let fromLabel = UILabel()
     private let dateLabel = UILabel()
-    private let bodyTextView = UITextView()
+    private let bodyHtmlView = UITextView()
     private var deleteButton: UIButton!
+    private var replyButton: UIButton!
     private var attachmentAlertController: UIAlertController!
 
     override func viewDidLoad() {
@@ -24,6 +27,7 @@ class EmailDetailViewController: UIViewController, UIDocumentPickerDelegate {
         self.title = "Email Detail"
         setupViews()
         displayEmailDetails()
+        addReplyButton()
         addDeleteButton()
     }
 
@@ -32,15 +36,15 @@ class EmailDetailViewController: UIViewController, UIDocumentPickerDelegate {
         subjectLabel.translatesAutoresizingMaskIntoConstraints = false
         fromLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        bodyTextView.translatesAutoresizingMaskIntoConstraints = false
+        bodyHtmlView.translatesAutoresizingMaskIntoConstraints = false
         
-        bodyTextView.isEditable = false
-        bodyTextView.font = UIFont.systemFont(ofSize: 14)
+        bodyHtmlView.isEditable = false
+        bodyHtmlView.font = UIFont.systemFont(ofSize: 14)
         
         view.addSubview(subjectLabel)
         view.addSubview(fromLabel)
         view.addSubview(dateLabel)
-        view.addSubview(bodyTextView)
+        view.addSubview(bodyHtmlView)
         
         // Set up constraints
         NSLayoutConstraint.activate([
@@ -56,10 +60,10 @@ class EmailDetailViewController: UIViewController, UIDocumentPickerDelegate {
             dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            bodyTextView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
-            bodyTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            bodyTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            bodyTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            bodyHtmlView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
+            bodyHtmlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            bodyHtmlView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            bodyHtmlView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -67,19 +71,36 @@ class EmailDetailViewController: UIViewController, UIDocumentPickerDelegate {
     func displayHTMLContent(htmlString: String) {
          guard let data = htmlString.data(using: .utf8) else { return }
 
-         do {
-             let attributedString = try NSAttributedString(
-                 data: data,
-                 options: [.documentType: NSAttributedString.DocumentType.html],
-                 documentAttributes: nil
-             )
-             let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
-             mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: mutableAttributedString.length))
-
-             bodyTextView.attributedText = mutableAttributedString
-         } catch {
-             print("Error loading HTML: \(error)")
-         }
+        do {
+            // Convert the data to a string so we can modify it
+            if let htmlString = String(data: data, encoding: .utf8) {
+                let darkModeHTML = """
+                <style>
+                    body { background-color: black; color: white; }
+                </style>
+                \(htmlString)
+                """
+                
+                // Convert back to Data
+                if let darkModeData = darkModeHTML.data(using: .utf8) {
+                    let attributedString = try NSAttributedString(
+                        data: darkModeData,
+                        options: [.documentType: NSAttributedString.DocumentType.html],
+                        documentAttributes: nil
+                    )
+                    
+                    let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+                    
+                    // Ensure all text is white
+//                    mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: mutableAttributedString.length))
+                    
+                    // Set the modified attributed string to the UITextView
+                    bodyHtmlView.attributedText = mutableAttributedString
+                }
+            }
+        } catch {
+            print("Error loading HTML: \(error)")
+        }
      }
     
 
@@ -91,116 +112,64 @@ class EmailDetailViewController: UIViewController, UIDocumentPickerDelegate {
         dateLabel.text = "Date: \(email.header.date?.description ?? "Unknown Date")"
         
         // Fetch the body using the passed closure
-        fetchContentClosure? { [weak self] body, attachments, bodyHtml in
+        fetchContentClosure? { [weak self] bodyHtml in
             DispatchQueue.main.async {
-                //self?.bodyTextView.text = " \(email.header.sender.displayName ?? "")\n" + bodyHtml
+                //self?.bodyHtmlView.text = " \(email.header.sender.displayName ?? "")\n" + bodyHtml
                 self?.displayHTMLContent(htmlString: bodyHtml)
-                var mcoAttachments: [MCOAttachment] = []
-                for attachment in attachments {
-                    if let mcoAttachment = attachment as? MCOAttachment {
-                        mcoAttachments.append(mcoAttachment)
-                    } else {
-                        print("Found non-MCOAttachment object in the attachments array.")
-                    }
-                }
-        
-                if !mcoAttachments.isEmpty {
-                    self?.addDownloadButton(for: mcoAttachments)
-                }
-                
-                
             }
         }
     }
     
-    func handleICSFile(_ icsData: Data) {
-        // First, let's try to open the .ics file using UIDocumentInteractionController.
-        // We'll save it to a temporary file, and let the user open it with the default app (Calendar).
-        
-        let tempDirectory = FileManager.default.temporaryDirectory
-        let fileURL = tempDirectory.appendingPathComponent("attachment.ics")
-        
-        do {
-            // Write the .ics data to a temporary file
-            try icsData.write(to: fileURL)
-            UIApplication.shared.open(fileURL, options: [:], completionHandler: nil)
-            // Now, create a document interaction controller to open the file
-//            let documentController = UIDocumentPickerViewController(url: fileURL, in: .exportToService)
-//            documentController.delegate = self
-//            present(documentController, animated: true, completion: nil)
-            
-        } catch {
-            print("Failed to save .ics file: \(error)")
-        }
-    }
+
     
-    
-    func addDownloadButton(for attachments: [MCOAttachment]) {
-        let iconImage = UIImage(systemName: "square.and.arrow.down")  // Use a download icon
-        let downloadAttachmentButton = UIButton(type: .custom)
+    func addReplyButton() {
+        replyButton = UIButton(type: .custom)
+        let iconImage = UIImage(systemName: "arrowshape.turn.up.left")  // Use a download icon
         
-        downloadAttachmentButton.setImage(iconImage, for: .normal)
-        downloadAttachmentButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        replyButton.setImage(iconImage, for: .normal)
+        replyButton.translatesAutoresizingMaskIntoConstraints = false
         
         // Make the button circular
-        downloadAttachmentButton.layer.cornerRadius = 25
-        downloadAttachmentButton.clipsToBounds = true
-        downloadAttachmentButton.backgroundColor = .systemIndigo
-        downloadAttachmentButton.tintColor = .white
-        
-        
-        
-        attachmentAlertController = UIAlertController(title: "Choose Attachment", message: "Please select an attachment.", preferredStyle: .alert)
-        for (index, attachment) in attachments.enumerated() {
-            // Create a button to download the attachment
-            let actionTitle = attachment.filename ?? "\(index + 1) \(attachment.mimeType!)"
-            attachmentAlertController.addAction(UIAlertAction(title: actionTitle, style: .default, handler: {[weak self] _ in
-                self?.openAttachment(attachment)
-            }))
-        }
+        replyButton.layer.cornerRadius = 25
+        replyButton.clipsToBounds = true
+        replyButton.backgroundColor = .systemIndigo
+        replyButton.tintColor = .white
         
         // Action when the button is pressed
-        downloadAttachmentButton.addTarget(self, action: #selector(showAttachmentPopup), for: .touchUpInside)
+        replyButton.addTarget(self, action: #selector(addNewMessage), for: .touchUpInside)
 
         
         // Add the button to the view
-        self.view.addSubview(downloadAttachmentButton)
+        self.view.addSubview(replyButton)
         
         NSLayoutConstraint.activate([
-            downloadAttachmentButton.widthAnchor.constraint(equalToConstant: 50),
-            downloadAttachmentButton.heightAnchor.constraint(equalToConstant: 50),
-            downloadAttachmentButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            downloadAttachmentButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80)
+            replyButton.widthAnchor.constraint(equalToConstant: 50),
+            replyButton.heightAnchor.constraint(equalToConstant: 50),
+            replyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            replyButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80)
         ])
     }
     
     
-    func openAttachment(_ attachment: MCOAttachment) {
-        guard let mimeType = attachment.mimeType else { return }
-        print(mimeType)
-        // If it's an image, we can display it in an image view
+    
+    @objc func addNewMessage() {
+        let newMessageController = NewEmailViewController()
+        newMessageController.smtpSession = smtpSession
+        newMessageController.username = username
+        newMessageController.replyToEmail = email?.header.sender.mailbox
+        let originalText = bodyHtmlView.attributedText.string
         
-        if mimeType == "application/ics" || mimeType == "text/calendar" {
-            // Handle the .ics attachment
-            
-            // First, let's check if we have the attachment data.
-            if let data = attachment.data {
-                // Parse or open the .ics data
-                handleICSFile(data)
-            } else {
-                print("No data found for attachment.")
-            }
-            
-        }
+        // Prefix each line with ">"
+        let quotedText = originalText
+            .split(separator: "\n")
+            .map { "> \($0)" }
+            .joined(separator: "\n")
+        newMessageController.replyContent = "\n             \n\n------------------------------\n > On \(dateLabel.text ?? "Unknown") \(email?.header.sender.mailbox ?? "Unknown") wrote:\n\n >" + quotedText + "\n"
+        newMessageController.replyToSubject = email?.header.subject
+        navigationController?.pushViewController(newMessageController, animated: true)
     }
     
-    
-    @objc func showAttachmentPopup() {
-        self.present(attachmentAlertController, animated: true, completion: nil)
-    }
-    
-    
-
     
     
     
