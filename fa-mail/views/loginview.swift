@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
         smtpSession.hostname = "smtp.sendgrid.net"
         smtpSession.port = 587  // Use 587 for TLS, 465 for SSL, or 25 (non-secure) if needed
         smtpSession.username = "apikey"
-        smtpSession.password = API_KEY
+        smtpSession.password = API_KEY // from settings.swift
         smtpSession.authType = .saslPlain
         smtpSession.connectionType = .startTLS
         

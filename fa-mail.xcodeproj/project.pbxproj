@@ -65,15 +65,11 @@
 		};
 		B96C193F2D24D448008C8271 /* fa-mailTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "fa-mailTests";
 			sourceTree = "<group>";
 		};
 		B96C19492D24D448008C8271 /* fa-mailUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "fa-mailUITests";
 			sourceTree = "<group>";
 		};
@@ -347,9 +343,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -386,9 +386,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -563,7 +567,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "fa-mail/fa-mail.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "fa-mail/fa-mailDebug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"fa-mail/Preview Content\"";
@@ -709,7 +713,7 @@
 				B96C194F2D24D448008C8271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		B96C19502D24D448008C8271 /* Build configuration list for PBXNativeTarget "fa-mail" */ = {
 			isa = XCConfigurationList;
@@ -718,7 +722,7 @@
 				B96C19522D24D448008C8271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		B96C19532D24D448008C8271 /* Build configuration list for PBXNativeTarget "fa-mailTests" */ = {
 			isa = XCConfigurationList;
@@ -727,7 +731,7 @@
 				B96C19552D24D448008C8271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		B96C19562D24D448008C8271 /* Build configuration list for PBXNativeTarget "fa-mailUITests" */ = {
 			isa = XCConfigurationList;
@@ -736,7 +740,7 @@
 				B96C19582D24D448008C8271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 

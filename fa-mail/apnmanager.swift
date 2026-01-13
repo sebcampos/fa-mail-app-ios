@@ -45,7 +45,7 @@ class APNManager: NSObject, UNUserNotificationCenterDelegate {
     func sendDeviceTokenToServer() {
         let email = UserDefaults.standard.string(forKey: "userEmail")
         let tokenString = UserDefaults.standard.string(forKey: "deviceToken")
-        let url = URL(string: "https://www.friendlyautomations.com/api/auth/apn/device-token/")!
+        let url = URL(string: "https://www.friendlyautomations.com/api/apn/device-token/")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -64,7 +64,7 @@ class APNManager: NSObject, UNUserNotificationCenterDelegate {
     
     func resetAlertCount() {
         let tokenString = UserDefaults.standard.string(forKey: "deviceToken") ?? ""
-        let urlString = "https://www.friendlyautomations.com/api/auth/apn/device-token?device_token=\(tokenString)&count=0"
+        let urlString = "https://www.friendlyautomations.com/api/apn/device-token?device_token=\(tokenString)&count=0"
         let url = URL(string: urlString)!
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
