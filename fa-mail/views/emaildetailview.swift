@@ -41,6 +41,15 @@ class EmailDetailViewController: UIViewController {
         bodyHtmlView.isEditable = false
         bodyHtmlView.font = UIFont.systemFont(ofSize: 14)
         
+        
+        subjectLabel.numberOfLines = 0
+        fromLabel.numberOfLines = 0
+        dateLabel.numberOfLines = 0
+
+        subjectLabel.lineBreakMode = .byWordWrapping
+        fromLabel.lineBreakMode = .byWordWrapping
+        dateLabel.lineBreakMode = .byWordWrapping
+        
         view.addSubview(subjectLabel)
         view.addSubview(fromLabel)
         view.addSubview(dateLabel)
@@ -74,15 +83,42 @@ class EmailDetailViewController: UIViewController {
         do {
             // Convert the data to a string so we can modify it
             if let htmlString = String(data: data, encoding: .utf8) {
-                let darkModeHTML = """
+                let styleHTML = """
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <style>
-                    body { background-color: black; color: white; }
+                    body { 
+                        color: black;
+                        overflow-wrap: break-word;
+                        word-wrap: break-word;
+                        margin: 0;
+                        padding: 0 8px; /* 👈 key fix */
+                    }
+                    img {
+                        max-width: 90% !important;
+                    }
+                
+                    a {
+                        color: #4DA3FF !important;
+                        text-decoration: underline;
+                    }    
+                
+                    table {
+                            width: 90% !important;
+                            max-width: 90% !important;
+                        }
+
+                        td, div, p, span, a {
+                            max-width: 80% !important;
+                            overflow-wrap: break-word;
+                            word-wrap: break-word;
+                        }
+                    * { word-wrap: break-word; }
                 </style>
                 \(htmlString)
                 """
                 
                 // Convert back to Data
-                if let darkModeData = darkModeHTML.data(using: .utf8) {
+                if let darkModeData = styleHTML.data(using: .utf8) {
                     let attributedString = try NSAttributedString(
                         data: darkModeData,
                         options: [.documentType: NSAttributedString.DocumentType.html],
