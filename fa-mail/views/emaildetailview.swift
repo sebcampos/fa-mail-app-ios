@@ -5,26 +5,29 @@
 //  Created by Sebastian Campos on 3/5/25.
 //
 import SwiftUI
+import WebKit
 
-class EmailDetailViewController: UIViewController {
+class EmailDetailViewController: UIViewController, WKNavigationDelegate {
     
     var email: MCOIMAPMessage?
     var fetchContentClosure: ((@escaping (String) -> Void) -> Void)?
     var deleteEmailClosure: ((MCOIMAPMessage, @escaping (Bool) -> Void) -> Void)?
     var username: String!
     var smtpSession: MCOSMTPSession!
+    var imapSession: MCOIMAPSession?
     
     private let subjectLabel = UILabel()
     private let fromLabel = UILabel()
     private let dateLabel = UILabel()
-    private let bodyHtmlView = UITextView()
+    private let bodyHtmlView = WKWebView()
+    private var plainBody = ""
     private var deleteButton: UIButton!
     private var replyButton: UIButton!
     private var attachmentAlertController: UIAlertController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Email Detail"
+        self.title = "Message"
         setupViews()
         displayEmailDetails()
         addReplyButton()
@@ -38,10 +41,13 @@ class EmailDetailViewController: UIViewController {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyHtmlView.translatesAutoresizingMaskIntoConstraints = false
         
-        bodyHtmlView.isEditable = false
-        bodyHtmlView.font = UIFont.systemFont(ofSize: 14)
+        bodyHtmlView.isOpaque = false
+        bodyHtmlView.backgroundColor = .white
+        bodyHtmlView.scrollView.backgroundColor = .white
+        bodyHtmlView.navigationDelegate = self
+        bodyHtmlView.scrollView.contentInset.bottom = 80
         
-        
+
         subjectLabel.numberOfLines = 0
         fromLabel.numberOfLines = 0
         dateLabel.numberOfLines = 0
@@ -55,88 +61,79 @@ class EmailDetailViewController: UIViewController {
         view.addSubview(dateLabel)
         view.addSubview(bodyHtmlView)
         
+        view.backgroundColor = .systemBackground
+        bodyHtmlView.backgroundColor = .white   // email HTML assumes a light page
+        
         // Set up constraints
         NSLayoutConstraint.activate([
             subjectLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            subjectLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            subjectLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            subjectLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            subjectLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
             fromLabel.topAnchor.constraint(equalTo: subjectLabel.bottomAnchor, constant: 10),
-            fromLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            fromLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            fromLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            fromLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
             dateLabel.topAnchor.constraint(equalTo: fromLabel.bottomAnchor, constant: 10),
-            dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            dateLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            dateLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
             bodyHtmlView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 20),
-            bodyHtmlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            bodyHtmlView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            bodyHtmlView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            bodyHtmlView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             bodyHtmlView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            let landscape = size.width > size.height
+            self.fromLabel.isHidden = landscape
+            self.dateLabel.isHidden = landscape
+        }, completion: { _ in self.fitToWidth() })
+    }
+    
+    private func fitToWidth() {
+        let js = """
+        (function(){
+          document.body.style.zoom = 1;
+          var w = document.documentElement.scrollWidth, v = window.innerWidth;
+          if (w > v) { document.body.style.zoom = v / w; }
+        })();
+        """
+        bodyHtmlView.evaluateJavaScript(js)
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        fitToWidth()
+    }
+    
     
     func displayHTMLContent(htmlString: String) {
-         guard let data = htmlString.data(using: .utf8) else { return }
-
-        do {
-            // Convert the data to a string so we can modify it
-            if let htmlString = String(data: data, encoding: .utf8) {
-                let styleHTML = """
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
-                    body { 
-                        color: black;
-                        overflow-wrap: break-word;
-                        word-wrap: break-word;
-                        margin: 0;
-                        padding: 0 8px; /* 👈 key fix */
-                    }
-                    img {
-                        max-width: 90% !important;
-                    }
-                
-                    a {
-                        color: #4DA3FF !important;
-                        text-decoration: underline;
-                    }    
-                
-                    table {
-                            width: 90% !important;
-                            max-width: 90% !important;
-                        }
-
-                        td, div, p, span, a {
-                            max-width: 80% !important;
-                            overflow-wrap: break-word;
-                            word-wrap: break-word;
-                        }
-                    * { word-wrap: break-word; }
-                </style>
-                \(htmlString)
-                """
-                
-                // Convert back to Data
-                if let darkModeData = styleHTML.data(using: .utf8) {
-                    let attributedString = try NSAttributedString(
-                        data: darkModeData,
-                        options: [.documentType: NSAttributedString.DocumentType.html],
-                        documentAttributes: nil
-                    )
-                    
-                    let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
-                    
-                    // Ensure all text is white
-//                    mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: mutableAttributedString.length))
-                    
-                    // Set the modified attributed string to the UITextView
-                    bodyHtmlView.attributedText = mutableAttributedString
-                }
-            }
-        } catch {
-            print("Error loading HTML: \(error)")
+        if let data = htmlString.data(using: .utf8),
+           let attr = try? NSAttributedString(
+               data: data,
+               options: [.documentType: NSAttributedString.DocumentType.html,
+                         .characterEncoding: String.Encoding.utf8.rawValue],
+               documentAttributes: nil) {
+            plainBody = attr.string
         }
+        let page = """
+        <html><head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+        html, body { background:#fff; color:#000; margin:0; padding:0 8px;
+                     font-family:-apple-system; overflow-wrap:anywhere; }
+        * { max-width:100% !important; box-sizing:border-box; }
+        table { width:100% !important; table-layout:auto; }
+        td, th { word-break:break-word; }
+        img { height:auto !important; }
+        pre { white-space:pre-wrap; }
+        </style></head>
+        <body>\(htmlString)</body></html>
+        """
+        bodyHtmlView.loadHTMLString(page, baseURL: nil)
      }
     
 
@@ -169,7 +166,7 @@ class EmailDetailViewController: UIViewController {
         // Make the button circular
         replyButton.layer.cornerRadius = 25
         replyButton.clipsToBounds = true
-        replyButton.backgroundColor = .systemIndigo
+        replyButton.backgroundColor = .faPurple
         replyButton.tintColor = .white
         
         // Action when the button is pressed
@@ -193,8 +190,10 @@ class EmailDetailViewController: UIViewController {
         let newMessageController = NewEmailViewController()
         newMessageController.smtpSession = smtpSession
         newMessageController.username = username
+        newMessageController.imapSession = imapSession
         newMessageController.replyToEmail = email?.header.sender.mailbox
-        let originalText = bodyHtmlView.attributedText.string
+        
+        let originalText = plainBody
         
         // Prefix each line with ">"
         let quotedText = originalText
@@ -250,8 +249,14 @@ class EmailDetailViewController: UIViewController {
                     // If deletion is successful, pop the current view controller
                     let alert = UIAlertController(title: "Success", message: "mail deleted", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                        // Navigate back after sending
-                        self?.navigationController?.popViewController(animated: true)
+                        // Clear the right column when split, otherwise go back
+                        if let split = self?.splitViewController, !split.isCollapsed {
+                            let blank = UIViewController()
+                            blank.view.backgroundColor = .systemBackground
+                            split.setViewController(UINavigationController(rootViewController: blank), for: .secondary)
+                        } else {
+                            self?.navigationController?.popViewController(animated: true)
+                        }
                     }))
                     self?.present(alert, animated: true, completion: nil)
                 } else {

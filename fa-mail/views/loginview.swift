@@ -25,17 +25,8 @@ class LoginViewController: UIViewController {
         
         
 
-        // Customize navigation bar appearance
-        let appearance = UINavigationBarAppearance()
-        appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor.white, // Set title color
-            .font: UIFont.boldSystemFont(ofSize: 32) ,// Set font size
-        ]
-        
-        appearance.backgroundColor = .systemIndigo
-        
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        // Purple nav bar with white cursive title
+        FATheme.apply(to: self.navigationController?.navigationBar)
         
         // Enable large titles
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -64,7 +55,7 @@ class LoginViewController: UIViewController {
         // Login Button
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.setTitle("Login", for: .normal)
-        loginButton.backgroundColor = .systemIndigo
+        loginButton.backgroundColor = .faPurple
         loginButton.layer.cornerRadius = 5
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         view.addSubview(loginButton)
@@ -131,10 +122,10 @@ class LoginViewController: UIViewController {
         imapSession.connectionType = .TLS
         
         
-        smtpSession.hostname = "smtp.sendgrid.net"
+        smtpSession.hostname = "mail.friendlyautomations.com"
         smtpSession.port = 587  // Use 587 for TLS, 465 for SSL, or 25 (non-secure) if needed
-        smtpSession.username = "apikey"
-        smtpSession.password = API_KEY // from settings.swift
+        smtpSession.username = username
+        smtpSession.password = password
         smtpSession.authType = .saslPlain
         smtpSession.connectionType = .startTLS
         
@@ -170,15 +161,26 @@ class LoginViewController: UIViewController {
     }
     
     func navigateToEmailScreen(imapSession: MCOIMAPSession, smtpSession: MCOSMTPSession) {
-        // Initialize the EmailViewController and set the imapSession
         let emailVC = EmailViewController()
         emailVC.imapSession = imapSession
         emailVC.smtpSession = smtpSession
-        
-        
-        if let navigationController = self.navigationController {
-            // Set the EmailViewController as the root view controller
-            navigationController.setViewControllers([emailVC], animated: true)
-        }
+
+        // Blank page shown on the right until an email is picked
+        let placeholder = UIViewController()
+        placeholder.view.backgroundColor = .systemBackground
+
+        // Inbox on the left, email detail on the right (landscape on large iPhones);
+        // collapses to normal push navigation in portrait
+        let split = UISplitViewController(style: .doubleColumn)
+        split.setViewController(UINavigationController(rootViewController: emailVC), for: .primary)
+        split.setViewController(UINavigationController(rootViewController: placeholder), for: .secondary)
+        split.preferredDisplayMode = .oneBesideSecondary
+        split.preferredSplitBehavior = .tile
+        split.preferredPrimaryColumnWidthFraction = 0.38
+        split.delegate = emailVC
+
+        guard let window = view.window else { return }
+        window.rootViewController = split
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
     }
 }

@@ -86,4 +86,27 @@ class APNManager: NSObject, UNUserNotificationCenterDelegate {
         
     }
     
+    /// Set the badge on the phone and the server's alert count to an exact number.
+    /// The server adds 1 to this count each time it pushes a new email.
+    func setAlertCount(_ count: Int) {
+        let count = max(count, 0)
+        UNUserNotificationCenter.current().setBadgeCount(count) { error in
+            if let error = error { print("Error setting badge: \(error.localizedDescription)") }
+        }
+        let tokenString = UserDefaults.standard.string(forKey: "deviceToken") ?? ""
+        guard !tokenString.isEmpty,
+              let url = URL(string: "https://www.friendlyautomations.com/api/apn/device-token?device_token=\(tokenString)&count=\(count)") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error { print("Failed to update alert count: \(error.localizedDescription)") }
+        }.resume()
+    }
+    
+    /// Take one off the badge, e.g. when an unread email is opened.
+    func decrementAlertCount() {
+        DispatchQueue.main.async {
+            self.setAlertCount(UIApplication.shared.applicationIconBadgeNumber - 1)
+        }
+    }
 }
