@@ -65,15 +65,11 @@
 		};
 		B96C193F2D24D448008C8271 /* fa-mailTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "fa-mailTests";
 			sourceTree = "<group>";
 		};
 		B96C19492D24D448008C8271 /* fa-mailUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "fa-mailUITests";
 			sourceTree = "<group>";
 		};
@@ -347,9 +343,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail/Pods-fa-mail-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -386,9 +386,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-fa-mail-fa-mailUITests/Pods-fa-mail-fa-mailUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
